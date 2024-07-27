@@ -1,0 +1,23 @@
+# 使用Alpine基础镜像
+FROM alpine:latest
+
+# 更换源为清华大学的镜像源
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
+
+# 更新软件包列表
+RUN apk update
+
+# 升级所有软件包
+RUN apk upgrade
+
+# 安装Git
+RUN apk add git
+
+# 安装Python
+RUN apk add --no-cache python3
+
+# 设置工作目录（可选）
+WORKDIR /app
+
+# 运行命令以保持容器不停止
+CMD ["tail", "-f", "/dev/null"]
