@@ -1,0 +1,35 @@
+# 使用Alpine Linux作为基础镜像
+FROM alpine:latest
+
+# 更换源为清华大学的镜像源
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
+
+# 更新软件包列表
+RUN apk update
+
+# 升级所有软件包
+RUN apk upgrade
+
+# 安装Git和Node.js
+RUN apk add --no-cache git nodejs
+
+# 安装npm
+RUN apk add --no-cache npm
+
+# 设置npm镜像源
+RUN npm config set registry https://registry.npmmirror.com
+
+# 安装cnpm
+RUN npm install -g cnpm
+
+# 安装Vue-cli
+RUN cnpm install -g @vue/cli
+
+# 设置工作目录（可选）
+WORKDIR /app
+
+# 将项目文件复制到容器中
+# COPY . /app
+
+# 运行命令以保持容器不停止
+CMD ["tail", "-f", "/dev/null"]
